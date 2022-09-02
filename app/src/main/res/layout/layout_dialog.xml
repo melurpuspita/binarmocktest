@@ -20,11 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etTitle"
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/putih_border"
-        android:hint="@string/masukkan_judul"
+        android:hint="Masukkan Nama Barang"
         android:paddingStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
@@ -35,18 +35,51 @@
         tools:ignore="RtlSymmetry" />
 
     <EditText
-        android:id="@+id/etNote"
+        android:id="@+id/etQuantity"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/putih_border"
-        android:hint="@string/masukkan_catatan"
+        android:hint="Masukkan Jumlah Barang"
+        android:inputType="number"
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTitle"
+        app:layout_constraintTop_toBottomOf="@+id/etName"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/etSupplier"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/putih_border"
+        android:hint="Masukkan Nama Supplier"
+        android:inputType="number"
+        android:paddingStart="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etQuantity"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/putih_border"
+        android:hint="Masukkan Tanggal"
+        android:inputType="date"
+        android:paddingStart="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSupplier"
         tools:ignore="RtlSymmetry" />
 
     <Button
@@ -58,6 +91,6 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etNote" />
+        app:layout_constraintTop_toBottomOf="@+id/etDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

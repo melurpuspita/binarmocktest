@@ -1,19 +1,18 @@
-package id.melur.binar.challengechapter4
+package id.melur.binar.mocktest.ui
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import id.melur.binar.challengechapter4.databinding.FragmentSplashScreenBinding
+import id.melur.binar.mocktest.R
+import id.melur.binar.mocktest.databinding.FragmentSplashScreenBinding
 import kotlinx.coroutines.delay
 
-class SplashScreen : Fragment() {
+class SplashScreen : androidx.fragment.app.Fragment() {
 
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
@@ -42,10 +41,6 @@ class SplashScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val editor = sharedPref.edit()
-//        editor.clear()
-//        editor.apply()
-
         dataUsername = sharedPref.getString("username", "")
         lifecycleScope.launchWhenCreated {
             splashToLogin()

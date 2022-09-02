@@ -1,8 +1,8 @@
-package id.melur.binar.challengechapter4
+package id.melur.binar.mocktest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import id.melur.binar.challengechapter4.databinding.ActivityMainBinding
+import id.melur.binar.mocktest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen"
+    tools:context=".ui.SplashScreen"
     android:background="@color/pink">
 
     <!-- TODO: Update blank fragment layout -->
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notes"
+        android:text="Aplikasi Pembukuan Toko"
         android:textColor="@color/pinkgelap"
         android:textSize="20dp"
         android:textStyle="bold"

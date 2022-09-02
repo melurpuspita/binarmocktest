@@ -1,4 +1,4 @@
-package id.melur.binar.challengechapter4
+package id.melur.binar.mocktest.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -15,11 +15,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.melur.binar.challengechapter4.adapter.NoteActionListener
-import id.melur.binar.challengechapter4.adapter.NoteAdapter
-import id.melur.binar.challengechapter4.database.Note
-import id.melur.binar.challengechapter4.database.NoteDatabase
-import id.melur.binar.challengechapter4.databinding.FragmentHomeScreenBinding
+import id.melur.binar.mocktest.R
+import id.melur.binar.mocktest.adapter.NoteActionListener
+import id.melur.binar.mocktest.adapter.NoteAdapter
+import id.melur.binar.mocktest.database.Note
+import id.melur.binar.mocktest.database.NoteDatabase
+import id.melur.binar.mocktest.databinding.FragmentHomeScreenBinding
 import kotlinx.coroutines.*
 
 class HomeScreen : Fragment() {
@@ -57,12 +58,12 @@ class HomeScreen : Fragment() {
         getData()
 
         val username = sharedPref.getString("username", "")
-        binding.tvWelcome.text = "Welcome, $username!"
+        binding.tvWelcome.text = "Selamat Datang, $username!"
 //        val user = 1
         mDb = NoteDatabase.getInstance(requireContext())
-        checkRegisteredNote()
+//        checkRegisteredNote()
         initRecyclerView()
-        getDataFromDb()
+//        getDataFromDb()
         logoutButtonOnPressed()
         AddButtonOnPressed()
     }
@@ -97,8 +98,10 @@ class HomeScreen : Fragment() {
             LayoutInflater.from(requireContext()).inflate(R.layout.layout_dialog, null, false)
 
         val tvTitle = customLayout.findViewById<TextView>(R.id.textView2)
-        val etTitle = customLayout.findViewById<EditText>(R.id.etTitle)
-        val etNote = customLayout.findViewById<EditText>(R.id.etNote)
+        val etName = customLayout.findViewById<EditText>(R.id.etName)
+        val etQuantity = customLayout.findViewById<EditText>(R.id.etQuantity)
+        val etSupplier = customLayout.findViewById<EditText>(R.id.etSupplier)
+        val etDate = customLayout.findViewById<EditText>(R.id.etDate)
         val btnSave = customLayout.findViewById<Button>(R.id.btnSave)
 
         val builder = AlertDialog.Builder(requireContext())
@@ -108,24 +111,25 @@ class HomeScreen : Fragment() {
         val dialog = builder.create()
 
         if (note != null) {
-            tvTitle.text = "Edit Data"
-            etTitle.setText(note.title)
-            etNote.setText(note.note)
+            tvTitle.text = "Edit Data Barang"
+            etName.setText(note.name)
+            etQuantity.setText(note.quantity)
+            etSupplier.setText(note.supplier)
+            etDate.setText(note.date)
         }
 
         btnSave.setOnClickListener {
-            val title = etTitle.text.toString()
-            val notes = etNote.text.toString()
-            val username = dataUsername.toString()
+            val name = etName.text.toString()
+            val quantity = etQuantity.text.toString()
+            val supplier = etSupplier.text.toString()
+            val date = etDate.text.toString()
 
             if (note != null) {
-                val newNote = Note(note.noteId, note.username, title, notes)
+                val newNote = Note(note.noteId, name, quantity, supplier, date)
                 updateToDb(newNote)
                 dialog.dismiss()
             } else {
-                binding.ivEmpty.isVisible = false
-                binding.tvEmpty.isVisible = false
-                saveToDb(username, title, notes)
+                saveToDb(name, quantity, supplier, date)
                 dialog.dismiss()
             }
         }
@@ -181,7 +185,7 @@ class HomeScreen : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = mDb?.noteDao()?.deleteNote(note)
             if (result != 0) {
-                getDataFromDb()
+                getDataFromDb(note)
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(requireContext(), "Berhasil Dihapus", Toast.LENGTH_SHORT).show()
                 }
@@ -193,12 +197,23 @@ class HomeScreen : Fragment() {
         }
     }
 
+//    private fun getDataFromDb() {
+////        getData()
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val username = dataUsername.toString()
+//            val result = mDb?.noteDao()?.getAllNotes(username = username)
+////            val result = mDb?.noteDao()?.getAllNotes()
+//            if (result != null) {
+//                CoroutineScope(Dispatchers.Main).launch {
+//                    noteAdapter.updateData(result)
+//                }
+//            }
+//        }
+//    }
+
     private fun getDataFromDb() {
-//        getData()
         CoroutineScope(Dispatchers.IO).launch {
-            val username = dataUsername.toString()
-            val result = mDb?.noteDao()?.getAllNotes(username = username)
-//            val result = mDb?.noteDao()?.getAllNotes()
+            val result = mDb?.noteDao()?.getAllNotes()
             if (result != null) {
                 CoroutineScope(Dispatchers.Main).launch {
                     noteAdapter.updateData(result)
@@ -207,14 +222,14 @@ class HomeScreen : Fragment() {
         }
     }
 
-    private fun saveToDb(username: String, title: String, note: String) {
+    private fun saveToDb(name: String, quantity: String, supplier: String, date: String) {
         getData()
 //        val username = dataUsername.toString()
-        val note = Note(null, username, title, note)
+        val note = Note(null, name, quantity, supplier, date)
         CoroutineScope(Dispatchers.IO).launch {
             val result = mDb?.noteDao()?.insertNote(note)
             if (result != 0L) {
-                getDataFromDb()
+                getDataFromDb(note)
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(requireContext(), "Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                 }
@@ -230,7 +245,7 @@ class HomeScreen : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = mDb?.noteDao()?.updateNote(note)
             if (result != 0) {
-                getDataFromDb()
+                getDataFromDb(note)
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(requireContext(), "Berhasil Diupdate", Toast.LENGTH_SHORT).show()
                 }
@@ -242,18 +257,18 @@ class HomeScreen : Fragment() {
         }
     }
 
-    private fun checkRegisteredNote() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val username = dataUsername.toString()
-            val result = mDb?.noteDao()?.getAllNotes(username)
-            if (result.isNullOrEmpty()) {
-                binding.ivEmpty.isVisible = true
-                binding.tvEmpty.isVisible = true
-            }
-            if (!result.isNullOrEmpty()) {
-                binding.ivEmpty.isVisible = false
-                binding.tvEmpty.isVisible = false
-            }
-        }
-    }
+//    private fun checkRegisteredNote() {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val username = dataUsername.toString()
+//            val result = mDb?.noteDao()?.getAllNotes(username)
+//            if (result.isNullOrEmpty()) {
+//                binding.ivEmpty.isVisible = true
+//                binding.tvEmpty.isVisible = true
+//            }
+//            if (!result.isNullOrEmpty()) {
+//                binding.ivEmpty.isVisible = false
+//                binding.tvEmpty.isVisible = false
+//            }
+//        }
+//    }
 }

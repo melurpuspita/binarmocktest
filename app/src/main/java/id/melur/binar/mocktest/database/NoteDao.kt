@@ -1,13 +1,13 @@
-package id.melur.binar.challengechapter4.database
+package id.melur.binar.mocktest.database
 
 import androidx.room.*
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM Note WHERE username = :username")
-    fun getAllNotes(username: String) : List<Note>
 //    @Query("SELECT * FROM Note")
-//    fun getAllNotes() : List<Note>
+//    fun getAllNotes(username: String) : List<Note>
+    @Query("SELECT * FROM Note")
+    fun getAllNotes() : List<Note>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNote(note: Note) : Long

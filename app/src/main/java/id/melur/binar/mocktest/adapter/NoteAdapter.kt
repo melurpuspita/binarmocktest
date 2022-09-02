@@ -1,4 +1,4 @@
-package id.melur.binar.challengechapter4.adapter
+package id.melur.binar.mocktest.adapter
 
 
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import id.melur.binar.challengechapter4.R
-import id.melur.binar.challengechapter4.database.Note
+import id.melur.binar.mocktest.R
+import id.melur.binar.mocktest.database.Note
 
 
 class NoteAdapter(private val onDelete : (Note) -> Unit,
@@ -46,16 +46,18 @@ class NoteAdapter(private val onDelete : (Note) -> Unit,
     override fun getItemCount(): Int = differ.currentList.size
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvNoteId = view.findViewById<TextView>(R.id.tvNoteId)
-        private val tvTitle = view.findViewById<TextView>(R.id.tvTitle)
-        private val tvNote = view.findViewById<TextView>(R.id.tvNote)
+        private val tvName = view.findViewById<TextView>(R.id.tvName)
+        private val tvQuantity = view.findViewById<TextView>(R.id.tvQuantity)
+        private val tvSupplier = view.findViewById<TextView>(R.id.tvSupplier)
+        private val tvDate = view.findViewById<TextView>(R.id.tvDate)
         private val btnDelete = view.findViewById<ImageView>(R.id.btnDelete)
         private val btnEdit = view.findViewById<ImageView>(R.id.btnEdit)
 
         fun bind(note: Note) {
-            tvNoteId.text = note.noteId.toString()
-            tvTitle.text = note.title
-            tvNote.text = note.note
+            tvName.text = note.name
+            tvQuantity.text = note.quantity
+            tvSupplier.text = note.supplier
+            tvDate.text = note.date
 
             btnDelete.setOnClickListener {
                 onDelete.invoke(note)

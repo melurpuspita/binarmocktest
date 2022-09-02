@@ -1,4 +1,4 @@
-package id.melur.binar.challengechapter4
+package id.melur.binar.mocktest
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

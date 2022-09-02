@@ -1,4 +1,4 @@
-package id.melur.binar.challengechapter4
+package id.melur.binar.mocktest
 
 import org.junit.Test
 

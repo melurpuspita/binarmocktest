@@ -1,4 +1,4 @@
-package id.melur.binar.challengechapter4.database
+package id.melur.binar.mocktest.database
 
 import android.content.Context
 import androidx.room.Database
