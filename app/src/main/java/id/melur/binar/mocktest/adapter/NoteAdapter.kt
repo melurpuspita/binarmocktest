@@ -54,10 +54,10 @@ class NoteAdapter(private val onDelete : (Note) -> Unit,
         private val btnEdit = view.findViewById<ImageView>(R.id.btnEdit)
 
         fun bind(note: Note) {
-            tvName.text = note.name
-            tvQuantity.text = note.quantity
-            tvSupplier.text = note.supplier
-            tvDate.text = note.date
+            tvName.text = "Nama Barang: ${note.name}"
+            tvQuantity.text = "Banyak Barang: ${note.quantity}"
+            tvSupplier.text = "Nama Supplier: ${note.supplier}"
+            tvDate.text = "Tanggal Masuk: ${note.date}"
 
             btnDelete.setOnClickListener {
                 onDelete.invoke(note)

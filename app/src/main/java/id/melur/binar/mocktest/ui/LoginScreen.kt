@@ -26,10 +26,8 @@ class LoginScreen : Fragment() {
 
     private var _binding: FragmentLoginScreenBinding? = null
     private val binding get() = _binding!!
-    private var mDb: NoteDatabase? = null
+//    private var mDb: NoteDatabase? = null
     private lateinit var sharedPref: SharedPreferences
-
-
 
     private val repository : Repository by lazy { Repository(requireContext()) }
     private val viewModel: ViewModel by viewModelsFactory { ViewModel(repository) }
@@ -51,7 +49,7 @@ class LoginScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedPref = requireContext().getSharedPreferences("username", Context.MODE_PRIVATE)
-        mDb = NoteDatabase.getInstance(requireContext())
+//        mDb = NoteDatabase.getInstance(requireContext())
         viewModel.userData()
         loginButtonOnPressed()
         observeData()
@@ -81,7 +79,7 @@ class LoginScreen : Fragment() {
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "Email atau Password tidak sesuai",
+                            "Akun tidak terdaftar",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -91,9 +89,8 @@ class LoginScreen : Fragment() {
     }
 
     private fun observeData() {
-
         viewModel.notRegistered.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Email belum terdaftar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Akun tidak terdaftar", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -7,20 +7,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import id.melur.binar.mocktest.R
 import id.melur.binar.mocktest.adapter.NoteActionListener
 import id.melur.binar.mocktest.adapter.NoteAdapter
 import id.melur.binar.mocktest.database.Note
 import id.melur.binar.mocktest.database.NoteDatabase
 import id.melur.binar.mocktest.databinding.FragmentHomeScreenBinding
+import id.melur.binar.mocktest.helper.Repository
+import id.melur.binar.mocktest.helper.viewModelsFactory
+import id.melur.binar.mocktest.viewmodel.ViewModel
 import kotlinx.coroutines.*
 
 class HomeScreen : Fragment() {
@@ -32,6 +35,9 @@ class HomeScreen : Fragment() {
     private var dataUsername: String? = ""
     private lateinit var noteAdapter: NoteAdapter
     private var mDb: NoteDatabase? = null
+
+    private val repository : Repository by lazy { Repository(requireContext()) }
+    private val viewModel: ViewModel by viewModelsFactory { ViewModel(repository) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,12 +66,23 @@ class HomeScreen : Fragment() {
         val username = sharedPref.getString("username", "")
         binding.tvWelcome.text = "Selamat Datang, $username!"
 //        val user = 1
+        role()
         mDb = NoteDatabase.getInstance(requireContext())
-//        checkRegisteredNote()
         initRecyclerView()
-//        getDataFromDb()
+        getDataFromDb()
         logoutButtonOnPressed()
         AddButtonOnPressed()
+    }
+
+    private fun role(){
+        if(dataUsername != "admin"){
+            val addButton = view?.findViewById(R.id.addButton) as FloatingActionButton
+            val btnDelete = view?.findViewById<ImageView>(R.id.btnDelete)
+            val btnEdit = view?.findViewById<ImageView>(R.id.btnEdit)
+            addButton.isGone = true
+            btnDelete?.isGone = true
+            btnEdit?.isGone = true
+        }
     }
 
     private fun logoutButtonOnPressed() {
@@ -185,7 +202,7 @@ class HomeScreen : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = mDb?.noteDao()?.deleteNote(note)
             if (result != 0) {
-                getDataFromDb(note)
+                getDataFromDb()
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(requireContext(), "Berhasil Dihapus", Toast.LENGTH_SHORT).show()
                 }
@@ -197,19 +214,6 @@ class HomeScreen : Fragment() {
         }
     }
 
-//    private fun getDataFromDb() {
-////        getData()
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val username = dataUsername.toString()
-//            val result = mDb?.noteDao()?.getAllNotes(username = username)
-////            val result = mDb?.noteDao()?.getAllNotes()
-//            if (result != null) {
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    noteAdapter.updateData(result)
-//                }
-//            }
-//        }
-//    }
 
     private fun getDataFromDb() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -229,7 +233,7 @@ class HomeScreen : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = mDb?.noteDao()?.insertNote(note)
             if (result != 0L) {
-                getDataFromDb(note)
+                getDataFromDb()
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(requireContext(), "Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                 }
@@ -245,7 +249,7 @@ class HomeScreen : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = mDb?.noteDao()?.updateNote(note)
             if (result != 0) {
-                getDataFromDb(note)
+                getDataFromDb()
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(requireContext(), "Berhasil Diupdate", Toast.LENGTH_SHORT).show()
                 }
@@ -256,19 +260,4 @@ class HomeScreen : Fragment() {
             }
         }
     }
-
-//    private fun checkRegisteredNote() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val username = dataUsername.toString()
-//            val result = mDb?.noteDao()?.getAllNotes(username)
-//            if (result.isNullOrEmpty()) {
-//                binding.ivEmpty.isVisible = true
-//                binding.tvEmpty.isVisible = true
-//            }
-//            if (!result.isNullOrEmpty()) {
-//                binding.ivEmpty.isVisible = false
-//                binding.tvEmpty.isVisible = false
-//            }
-//        }
-//    }
 }

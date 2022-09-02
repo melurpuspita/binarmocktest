@@ -59,7 +59,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/putih_border"
         android:hint="Masukkan Nama Supplier"
-        android:inputType="number"
+        android:inputType="text"
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

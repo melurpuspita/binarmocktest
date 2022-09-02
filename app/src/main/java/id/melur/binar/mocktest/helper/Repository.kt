@@ -1,6 +1,7 @@
 package id.melur.binar.mocktest.helper
 
 import android.content.Context
+import id.melur.binar.mocktest.database.Note
 import id.melur.binar.mocktest.database.NoteDatabase
 import id.melur.binar.mocktest.database.User
 import id.melur.binar.mocktest.database.UserDatabase
@@ -9,10 +10,11 @@ import kotlinx.coroutines.withContext
 
 class Repository(context: Context) {
 
-    private val mDb = UserDatabase.getInstance(context)
+    private val mDbUser = UserDatabase.getInstance(context)
+    private val mDbNote = NoteDatabase.getInstance(context)
 
     suspend fun getDataUser() = withContext(Dispatchers.IO) {
-        mDb?.userDao()?.getAllUser()
+        mDbUser?.userDao()?.getAllUser()
     }
 
 //    suspend fun updateUser(username: String, name: String, dateOfBirth: String, address: String) = withContext(
@@ -21,19 +23,23 @@ class Repository(context: Context) {
 //    }
 
     suspend fun insertUser(user: User) = withContext(Dispatchers.IO) {
-        mDb?.userDao()?.insertUser(user)
+        mDbUser?.userDao()?.insertUser(user)
     }
 
-    suspend fun deleteUser(user: User) = withContext(Dispatchers.IO) {
-        mDb?.userDao()?.deleteUser(user)
+    suspend fun deleteNote(note: Note) = withContext(Dispatchers.IO) {
+        mDbNote?.noteDao()?.deleteNote(note)
+    }
+
+    suspend fun getAllNotes() = withContext(Dispatchers.IO) {
+        mDbNote?.noteDao()?.getAllNotes()
     }
 
     suspend fun getRegisteredUser(username: String, password: String) = withContext(Dispatchers.IO) {
-        mDb?.userDao()?.getRegisteredUser(username, password)
+        mDbUser?.userDao()?.getRegisteredUser(username, password)
     }
 
     suspend fun getUser(username: String) = withContext(Dispatchers.IO) {
-        mDb?.userDao()?.getUser(username)
+        mDbUser?.userDao()?.getUser(username)
     }
 //    suspend fun getUser(username: String) = withContext(Dispatchers.IO) {
 //        mDb?.userDao()?.getUser(username)
