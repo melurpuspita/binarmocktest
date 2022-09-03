@@ -1,0 +1,16 @@
+Username dan password untuk login ke aplikai:
+
+-login sebagai admin
+username: admin
+password: admin
+
+-login sebagai karyawan
+username: karyawan1
+password: karyawan1
+
+username: karyawan2
+password: karyawan2
+
+...dst sampai dengan karyawan ke-5
+
+penambahan data dummy dapat dilihat pada file ViewModel
